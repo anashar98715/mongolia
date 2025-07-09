@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>몽골 체크리스트</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .progress-bar {
+            background: #f8f9fa;
+            border-radius: 50px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            border: 3px solid #e9ecef;
+        }
+
+        .progress-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill-container {
+            background: #e9ecef;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .flight-info {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .flight-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .time {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 12px 0;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            -webkit-user-select: none;
+            position: relative;
+        }
+
+        .checklist-item:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
+        }
+
+        .checklist-item.checked {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .checklist-item.checked .item-text {
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+
+        .custom-checkbox {
+            width: 28px;
+            height: 28px;
+            margin-right: 15px;
+            border: 3px solid #ccc;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .checklist-item.checked .custom-checkbox {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: white;
+        }
+
+        .item-text {
+            flex: 1;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .essential {
+            font-weight: bold;
+            color: #e91e63;
+        }
+
+        .tips {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .tips h4 {
+            margin-top: 0;
+            color: #856404;
+            font-size: 1.2rem;
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .storage-info {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #1976d2;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px; }
+            h1 { font-size: 1.5rem; }
+            .checklist-item { padding: 12px 15px; }
+            .item-text { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⛺ 몽골 여행 체크리스트</h1>
+        
+        <!-- 진행률 표시 -->
+        <div class="progress-bar">
+            <div class="progress-text">
+                <span id="checkedCount">0</span> / <span id="totalCount">0</span> 완료 
+                (<span id="progressPercent">0</span>%)
+            </div>
+            <div class="progress-fill-container">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- 로컬 저장 안내 -->
+        <div class="storage-info">
+            💾 체크 상태가 이 브라우저에 자동 저장됩니다!<br>
+            다음에 다시 방문해도 체크한 내용이 그대로 남아있어요.
+        </div>
+
+        <!-- 비행 정보 -->
+        <div class="flight-info">
+            <h3>🛫 가는 편 (7C5203)</h3>
+            <p>인천 2025.07.24 (목) <span class="time">09:40</span> → 울란바타르 <span class="time">12:20</span></p>
+            
+            <h3>🛬 오는 편 (7C5204)</h3>
+            <p>울란바타르 2025.07.28 (월) <span class="time">13:20</span> → 인천 <span class="time">17:40</span></p>
+        </div>
+
+        <!-- 필수 준비물 -->
+        <div class="section">
+            <h2 class="section-title">✅ 필수 준비물</h2>
+            
+            <div class="checklist-item" data-id="passport" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text essential">여권 ⭐</div>
+            </div>
+            
+            <div class="checklist-item" data-id="shorts" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">반바지</div>
+            </div>
+            
+            <div class="checklist-item" data-id="long-pants" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">긴바지</div>
+            </div>
+            
+            <div class="checklist-item" data-id="long-sleeve" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">긴팔티</div>
+            </div>
+            
+            <div class="checklist-item" data-id="short-sleeve" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">반팔티</div>
+            </div>
+            
+            <div class="checklist-item" data-id="disposable-clothes" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">버려도 상관없는 옷</div>
+            </div>
+            
+            <div class="checklist-item" data-id="underwear" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">속옷 (넉넉하게)</div>
+            </div>
+            
+            <div class="checklist-item" data-id="socks" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">양말 (넉넉하게)</div>
+            </div>
+            
+            <div class="checklist-item" data-id="swimwear" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">수영복</div>
+            </div>
+            
+            <div class="checklist-item" data-id="windbreaker" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">봄/가을용 바람막이 (또는 자켓)</div>
+            </div>
+            
+            <div class="checklist-item" data-id="sneakers" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">운동화</div>
+            </div>
+            
+            <div class="checklist-item" data-id="slippers" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">슬리퍼/크록스 (물에 젖어도 되는 편한 신발)</div>
+            </div>
+            
+            <div class="checklist-item" data-id="sunglasses" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">선글라스</div>
+            </div>
+            
+            <div class="checklist-item" data-id="sunscreen" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">선크림</div>
+            </div>
+            
+            <div class="checklist-item" data-id="hat" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">모자 (턱끈 있는게 좋음)</div>
+            </div>
+            
+            <div class="checklist-item" data-id="small-bag" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">개인용품용 작은 가방</div>
+            </div>
+            
+            <div class="checklist-item" data-id="backpack" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">백팩</div>
+            </div>
+            
+            <div class="checklist-item" data-id="toothbrush" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">칫솔</div>
+            </div>
+            
+            <div class="checklist-item" data-id="medicine" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">개인 상비약</div>
+            </div>
+            
+            <div class="checklist-item" data-id="tumbler" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">텀블러</div>
+            </div>
+            
+            <div class="checklist-item" data-id="phone-charger" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">핸드폰 충전기</div>
+            </div>
+            
+            <div class="checklist-item" data-id="power-bank" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">보조배터리</div>
+            </div>
+            
+            <div class="checklist-item" data-id="towel" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">수건 (2~3개)</div>
+            </div>
+            
+            <div class="checklist-item" data-id="lip-balm" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">립밤</div>
+            </div>
+            
+            <div class="checklist-item" data-id="cosmetics" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">개인 화장품</div>
+            </div>
+            
+            <div class="checklist-item" data-id="sim-roaming" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">유심/로밍/와이파이도시락</div>
+            </div>
+        </div>
+
+        <!-- 선택 사항 -->
+        <div class="section">
+            <h2 class="section-title">💡 있으면 좋은 것들</h2>
+            
+            <div class="checklist-item" data-id="hair-dryer" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">헤어드라이기</div>
+            </div>
+            
+            <div class="checklist-item" data-id="earplugs" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">이어플러그</div>
+            </div>
+            
+            <div class="checklist-item" data-id="mini-fan" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">미니선풍기</div>
+            </div>
+            
+            <div class="checklist-item" data-id="neck-pillow" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">목베개</div>
+            </div>
+            
+            <div class="checklist-item" data-id="flashlight" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">손전등</div>
+            </div>
+            
+            <div class="checklist-item" data-id="insect-repellent" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">벌레퇴치제</div>
+            </div>
+            
+            <div class="checklist-item" data-id="arm-sleeves" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">토시</div>
+            </div>
+            
+            <div class="checklist-item" data-id="mask" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">마스크</div>
+            </div>
+            
+            <div class="checklist-item" data-id="moisturizer" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">보습제 (인공눈물, 바세린, 핸드크림 등)</div>
+            </div>
+            
+            <div class="checklist-item" data-id="mosquito-net" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">모기장</div>
+            </div>
+            
+            <div class="checklist-item" data-id="bluetooth-speaker" onclick="toggleItem(this)">
+                <div class="custom-checkbox"></div>
+                <div class="item-text">블루투스 스피커</div>
+            </div>
+        </div>
+
+        <!-- 팁 -->
+        <div class="tips">
+            <h4>💡 준비 팁</h4>
+            <ul>
+                <li>샴푸, 린스, 바디워시는 현지에서 공용 구매 예정</li>
+                <li>멀티탭은 남녀 각 1명씩 지참</li>
+                <li>휴지, 물티슈는 현지에서 구매</li>
+                <li>25인치 캐리어까지 적재 가능</li>
+            </ul>
+        </div>
+
+        <button class="reset-btn" onclick="resetAll()">🔄 모든 체크 초기화</button>
+    </div>
+
+    <script>
+        // 로컬 스토리지 키
+        const STORAGE_KEY = 'mongolia-checklist-v2';
+        
+        // 상태 관리
+        let checklistState = {};
+
+        // 페이지 로드 시 초기화
+        function init() {
+            loadState();
+            updateAllItems();
+            updateProgress();
+            
+            // 총 아이템 수 설정
+            const totalItems = document.querySelectorAll('.checklist-item').length;
+            document.getElementById('totalCount').textContent = totalItems;
+        }
+
+        // 상태 저장
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistState));
+                console.log('상태가 로컬에 저장되었습니다:', checklistState);
+            } catch (e) {
+                console.warn('로컬 저장소에 저장할 수 없습니다:', e);
+            }
+        }
+
+        // 상태 로드
+        function loadState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    checklistState = JSON.parse(saved);
+                    console.log('저장된 상태를 불러왔습니다:', checklistState);
+                } else {
+                    checklistState = {};
+                }
+            } catch (e) {
+                console.warn('저장된 상태를 불러올 수 없습니다:', e);
+                checklistState = {};
+            }
+        }
+
+        // 아이템 토글
+        function toggleItem(element) {
+            const itemId = element.dataset.id;
+            const isChecked = checklistState[itemId] || false;
+            
+            // 상태 변경
+            checklistState[itemId] = !isChecked;
+            
+            // UI 업데이트
+            updateItemUI(element, !isChecked);
+            
+            // 상태 저장
+            saveState();
+            
+            // 진행률 업데이트
+            updateProgress();
+        }
+
+        // 아이템 UI 업데이트
+        function updateItemUI(element, isChecked) {
+            const checkbox = element.querySelector('.custom-checkbox');
+            
+            if (isChecked) {
+                element.classList.add('checked');
+                checkbox.innerHTML = '✓';
+            } else {
+                element.classList.remove('checked');
+                checkbox.innerHTML = '';
+            }
+        }
+
+        // 모든 아이템 UI 업데이트
+        function updateAllItems() {
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                const itemId = item.dataset.id;
+                const isChecked = checklistState[itemId] || false;
+                updateItemUI(item, isChecked);
+            });
+        }
+
+        // 진행률 업데이트
+        function updateProgress() {
+            const totalItems = document.querySelectorAll('.checklist-item').length;
+            const checkedItems = Object.values(checklistState).filter(Boolean).length;
+            const percentage = Math.round((checkedItems / totalItems) * 100);
+            
+            document.getElementById('checkedCount').textContent = checkedItems;
+            document.getElementById('progressPercent').textContent = percentage;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            
+            // 완료 시 특별 효과
+            if (percentage === 100) {
+                document.getElementById('progressFill').style.background = 
+                    'linear-gradient(90deg, #ff6b6b, #ffa726, #ffee58, #66bb6a, #42a5f5, #ab47bc)';
+            } else {
+                document.getElementById('progressFill').style.background = 
+                    'linear-gradient(90deg, #4caf50, #8bc34a)';
+            }
+        }
+
+        // 모든 체크 초기화
+        function resetAll() {
+            if (confirm('모든 체크를 초기화하시겠습니까?')) {
+                checklistState = {};
+                saveState();
+                updateAllItems();
+                updateProgress();
+            }
+        }
+
+        // 페이지 로드 시 실행
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
