@@ -626,7 +626,11 @@
             document.getElementById('progressFill').style.width = percentage + '%';
             
             // 원형 프로그레스 업데이트
-            document.getElementById('progressPercent2').textContent = percentage;
+            // document.getElementById('progressPercent2').textContent = percentage;
+            // const progressRing = document.getElementById('progressRing');
+            // const rotation = (percentage / 100) * 360;
+            // progressRing.style.transform = `rotate(${rotation}deg)`;
+            document.getElementById('progressPercent2').textContent = `${checkedItems}/${totalItems}`;
             const progressRing = document.getElementById('progressRing');
             const rotation = (percentage / 100) * 360;
             progressRing.style.transform = `rotate(${rotation}deg)`;
